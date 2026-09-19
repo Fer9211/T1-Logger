@@ -1,0 +1,37 @@
+/**
+ * Trabalho 1: Sistema Cliente/Servidor CORBA - Logger
+ * Disciplina: Computação Distribuída
+ * Integrantes do Grupo:
+ * - Fernanda Costa Moraes
+ * - Andressa de Oliveira Barros
+ * - Lissa Deguti
+ * - Melissa Weiss Perussulo
+ */
+
+module T1Logger {
+    enum Severidade {
+        DEBUG,
+        WARNING,
+        ERROR,
+        CRITICAL
+    };
+
+    // Quando o locate não encontrar o evento
+    exception EventNotFound {
+        string mensagem;
+    };
+
+    interface Logger {
+        // Registra os eventos enviados pelos clientes (assuíncrona)
+        void log(
+            in Severidade severidade,
+            in string endereco,
+            in unsigned short pid,
+            in long hora,
+            in string msg
+        );
+
+        // Consulta o endereço do último evento
+        string locate(in Severidade severidade) raises (EventNotFound);
+    };
+};
