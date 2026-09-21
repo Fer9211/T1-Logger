@@ -1,0 +1,19 @@
+# Executáveis e diretório de saída
+bin/
+*.exe
+
+# Arquivos objeto e temporários
+*.o
+*.obj
+*.d
+
+# Arquivos gerados pelo compilador IDL (tao_idl)
+LoggerC.cpp
+LoggerC.h
+LoggerC.inl
+LoggerS.cpp
+LoggerS.h
+LoggerC_T.cpp
+LoggerC_T.h
+LoggerS_T.cpp
+LoggerS_T.h
