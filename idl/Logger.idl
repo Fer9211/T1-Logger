@@ -22,9 +22,6 @@ module T1Logger {
     };
 
     interface Logger {
-        // Atributo chamado verbose para acionar/desligar a saída na tela
-        attribute boolean verbose;
-
         // Registra os eventos enviados pelos clientes (assíncrona)
         oneway void log(
             in Severidade severidade,

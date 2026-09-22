@@ -17,8 +17,7 @@ Sistema cliente/servidor baseado na arquitetura **CORBA (Common Object Request B
 1. **Interface IDL (`Logger.idl`)**:
    - `enum Severidade`: `DEBUG`, `WARNING`, `ERROR`, `CRITICAL`.
    - `exception EventNotFound`: disparada quando uma severidade buscada ainda não possui registros.
-   - `attribute boolean verbose`: ativa ou desativa a exibição em tempo real das mensagens recebidas no terminal do servidor.
-   - `oneway void log(...)`: operação assíncrona para envio de logs (severidade, endereço `ip:porta`, PID do processo, hora/timestamp em segundos e mensagem descritiva).
+   - `oneway void log(...)`: operação assíncrona para envio de logs (severidade, endereço `ip:porta`, PID do processo, hora/timestamp em segundos e mensagem descritiva). Cada chamada imprime os dados na tela do Logger.
    - `string locate(in Severidade s)`: retorna o endereço `ip:porta` do último evento recebido com a severidade especificada, ou lança `EventNotFound`.
 
 2. **Servidor (`servidor/`)**:
@@ -29,10 +28,9 @@ Sistema cliente/servidor baseado na arquitetura **CORBA (Common Object Request B
 3. **Cliente de Testes (`cliente/client.cpp`)**:
    - Conecta-se ao **NameService** e obtém a referência do `LoggerService`.
    - **Teste 1 (Exceção)**: Consulta `locate()` para severidades ainda não registradas e valida o disparo de `EventNotFound`.
-   - **Teste 2 (Atributo verbose)**: Lê e altera o atributo `verbose`.
-   - **Teste 3 (Múltiplos Clientes)**: Simula o envio de dados fictícios por diversos clientes espalhados na rede com severidades variadas, IPs no formato `"ip:porta"` (ex: `"192.168.1.1:1500"`), PIDs, timestamps e mensagens.
-   - **Teste 4 (Verificação de locate)**: Consulta e valida o último endereço registrado para cada severidade.
-   - **Teste 5 (Alternância de verbose)**: Desliga o verbose (modo silencioso), envia logs, e reativa o verbose.
+   - **Teste 2 (Múltiplos Clientes)**: Simula o envio de dados fictícios por diversos clientes espalhados na rede com severidades variadas, IPs no formato `"ip:porta"` (ex: `"192.168.1.1:1500"`), PIDs, timestamps e mensagens.
+   - **Teste 3 (Verificação de locate)**: Consulta e valida o último endereço registrado para cada severidade.
+   - **Teste 4 (Atualização Dinâmica)**: Envia novos eventos e valida se `locate()` atualiza para o endereço mais recente.
 
 ---
 
