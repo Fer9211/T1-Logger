@@ -1,8 +1,3 @@
-# ==============================================================================
-# Makefile Principal do Projeto T1-Logger
-# Disciplina: Programação Distribuída / Computação Distribuída
-# ==============================================================================
-
 all: servidor cliente
 
 servidor:
