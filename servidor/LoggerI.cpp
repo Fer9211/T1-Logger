@@ -49,7 +49,7 @@ char* LoggerI::locate(T1Logger::Severidade severidade) {
     auto it = ultimosEnderecos.find(severidade);
     if (it == ultimosEnderecos.end() || it->second.empty()) {
         // se não recebeu, lança a exceção
-        T1Logger::EventNotFound ex;e
+        T1Logger::EventNotFound ex;
         std::string erro = std::string("Nenhum evento recebido com severidade ") + severidadeParaTexto(severidade);
         ex.mensagem = CORBA::string_dup(erro.c_str());
         throw ex;
