@@ -1,16 +1,11 @@
-# ==============================================================================
-# Makefile para o Servidor Logger (CORBA / TAO)
-# Disciplina: Programação Distribuída / Computação Distribuída
-# ==============================================================================
-
 CXX = g++
 CXXFLAGS = -Wall -O2 -std=c++11
 
-# Diretórios do projeto
+# diretorios
 BIN_DIR = ../bin
 IDL_DIR = ../idl
 
-# Detecção e inclusão do ACE / TAO
+# deteccao e inclusao do ACE / TAO
 INCLUDES = -I. -I$(IDL_DIR)
 
 ifdef ACE_ROOT
@@ -18,25 +13,25 @@ ifdef ACE_ROOT
   LDFLAGS  += -L$(ACE_ROOT)/lib
 endif
 
-# Inclusões para distribuições Linux (Debian / Ubuntu / CentOS)
+# p distribuicoes linux
 INCLUDES += -I/usr/include/tao -I/usr/include/ace -I/usr/include/tao/orbsvcs
 
-# Bibliotecas necessárias do TAO e ACE
+# bibliotecas do TAO e ACE
 LIBS = -lTAO_CosNaming -lTAO_PortableServer -lTAO_AnyTypeCode -lTAO -lACE -lpthread
 
-# Executável de destino
+# gatilho
 TARGET = $(BIN_DIR)/servidor
 
-# Arquivo IDL e stubs/skeletons gerados
+# IDL e stubs/skeletons
 IDL = $(IDL_DIR)/Logger.idl
 IDL_SRCS = LoggerC.cpp LoggerS.cpp
 IDL_HDRS = LoggerC.h LoggerS.h LoggerC.inl
 
-# Arquivos fonte e objetos
+# fonte e objct
 SRCS = servidor.cpp LoggerI.cpp $(IDL_SRCS)
 OBJS = $(SRCS:.cpp=.o)
 
-# Regra principal
+# regra principal
 all: $(TARGET)
 
 $(TARGET): $(IDL_SRCS) $(OBJS) | $(BIN_DIR)
@@ -48,11 +43,11 @@ $(TARGET): $(IDL_SRCS) $(OBJS) | $(BIN_DIR)
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-# Geração dos stubs/skeletons pelo compilador TAO IDL
+# gera stubs/skeletons pelo compilador TAO IDL
 $(IDL_SRCS) $(IDL_HDRS): $(IDL)
 	tao_idl -I$(IDL_DIR) $(IDL)
 
-# Compilação dos objetos C++
+# compila objetos distribuidosC++
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 

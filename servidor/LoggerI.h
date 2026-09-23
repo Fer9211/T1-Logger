@@ -8,7 +8,7 @@
 
 class LoggerI : public virtual POA_T1Logger::Logger {
 private:
-    // Guarda o último endereço recebido para cada severidade
+    // guarda ultimo endereço recebido p cada severidade
     std::map<T1Logger::Severidade, std::string> ultimosEnderecos;
     std::mutex mtx;
 
@@ -16,7 +16,7 @@ public:
     LoggerI();
     virtual ~LoggerI();
 
-    // Método assíncrono para registrar eventos de log
+    // async p registrar eventos de log
     virtual void log(
         T1Logger::Severidade severidade,
         const char* endereco,
@@ -25,7 +25,7 @@ public:
         const char* msg
     );
 
-    // Método locate para buscar o último endereço da severidade
+    // p buscar ultimo endereço da severidade
     virtual char* locate(T1Logger::Severidade severidade);
 };
 

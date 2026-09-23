@@ -7,7 +7,7 @@ LoggerI::LoggerI() {
 LoggerI::~LoggerI() {
 }
 
-// Função auxiliar simples para converter severidade para texto
+// parse sev para texto
 static const char* severidadeParaTexto(T1Logger::Severidade sev) {
     switch (sev) {
         case T1Logger::DEBUG:    return "DEBUG";
@@ -18,7 +18,7 @@ static const char* severidadeParaTexto(T1Logger::Severidade sev) {
     }
 }
 
-// Método assíncrono para registro de eventos (oneway void log)
+// async registro de eventos
 void LoggerI::log(
     T1Logger::Severidade severidade,
     const char* endereco,
@@ -26,36 +26,35 @@ void LoggerI::log(
     CORBA::Long hora,
     const char* msg
 ) {
-    // Garante exclusão mútua caso múltiplos clientes enviem logs ao mesmo tempo
+    // garante delete, caso condicao de corrida
     std::lock_guard<std::mutex> lock(mtx);
 
-    // Salva o último endereço recebido para esta severidade
+    // salva o ultimo endereço desse erro
     ultimosEnderecos[severidade] = (endereco ? endereco : "");
 
-    // Imprime os dados recebidos na tela do servidor a cada chamada remota
     std::cout << "----------------------------------------" << std::endl;
     std::cout << "[LOG RECEBIDO]" << std::endl;
-    std::cout << "  Severidade: " << severidadeParaTexto(severidade) << std::endl;
-    std::cout << "  Endereço  : " << (endereco ? endereco : "") << std::endl;
-    std::cout << "  PID       : " << pid << std::endl;
-    std::cout << "  Hora      : " << hora << " (segundos)" << std::endl;
-    std::cout << "  Mensagem  : " << (msg ? msg : "") << std::endl;
+    std::cout << " Severidade: " << severidadeParaTexto(severidade) << std::endl;
+    std::cout << "Endereço : " << (endereco ? endereco : "") << std::endl;
+    std::cout << "PID: " << pid << std::endl;
+    std::cout << "Hora: " << hora << " (segundos)" << std::endl;
+    std::cout << "Mensagem: " << (msg ? msg : "") << std::endl;
     std::cout << "----------------------------------------" << std::endl;
 }
 
-// Método locate: retorna o endereço do último evento com severidade s
+// locate: retorna o endereco do ultimo evento com severidade s
 char* LoggerI::locate(T1Logger::Severidade severidade) {
     std::lock_guard<std::mutex> lock(mtx);
 
     auto it = ultimosEnderecos.find(severidade);
     if (it == ultimosEnderecos.end() || it->second.empty()) {
-        // Se ainda não recebeu eventos dessa severidade, lança a exceção EventNotFound
-        T1Logger::EventNotFound ex;
+        // se não recebeu, lança a exceção
+        T1Logger::EventNotFound ex;e
         std::string erro = std::string("Nenhum evento recebido com severidade ") + severidadeParaTexto(severidade);
         ex.mensagem = CORBA::string_dup(erro.c_str());
         throw ex;
     }
 
-    // Em CORBA C++, strings retornadas pelo servant devem ser alocadas com CORBA::string_dup
+    // strings retornadas pelo servant tem q ser alocadas assim
     return CORBA::string_dup(it->second.c_str());
 }

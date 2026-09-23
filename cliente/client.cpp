@@ -5,10 +5,10 @@
 
 int main(int argc, char* argv[]) {
     try {
-        // 1. Inicializa o ORB
+        // inicializa o ORB
         CORBA::ORB_var orb = CORBA::ORB_init(argc, argv);
 
-        // 2. Conecta ao Servidor de Nomes (NameService)
+        // conecta ao NameService
         std::cout << "[Cliente] Conectando ao NameService..." << std::endl;
         CORBA::Object_var naming_obj = orb->resolve_initial_references("NameService");
         CosNaming::NamingContext_var naming_context = CosNaming::NamingContext::_narrow(naming_obj.in());
@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
-        // 3. Localiza o servico "LoggerService" registrado pelo servidor
+        // localiza o LoggerService (registrado pelo servidor)
         CosNaming::Name name;
         name.length(1);
         name[0].id = CORBA::string_dup("LoggerService");
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
         std::cout << "       TODOS OS TESTES FORAM CONCLUIDOS COM SUCESSO!            " << std::endl;
         std::cout << "================================================================" << std::endl;
 
-        // Finaliza o ORB
+        // finaliza
         orb->destroy();
 
     } catch (const CORBA::Exception& e) {
