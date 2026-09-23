@@ -10,11 +10,11 @@ LoggerI::~LoggerI() {
 // parse sev para texto
 static const char* severidadeParaTexto(T1Logger::Severidade sev) {
     switch (sev) {
-        case T1Logger::DEBUG:    return "DEBUG";
-        case T1Logger::WARNING:  return "WARNING";
-        case T1Logger::ERROR:    return "ERROR";
+        case T1Logger::DEBUG: return "DEBUG";
+        case T1Logger::WARNING: return "WARNING";
+        case T1Logger::ERROR: return "ERROR";
         case T1Logger::CRITICAL: return "CRITICAL";
-        default:                 return "DESCONHECIDO";
+        default: return "DESCONHECIDO";
     }
 }
 
