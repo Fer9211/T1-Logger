@@ -16,13 +16,12 @@ module T1Logger {
         CRITICAL
     };
 
-    // Quando o locate não encontrar o evento
     exception EventNotFound {
         string mensagem;
     };
 
     interface Logger {
-        // Registra os eventos enviados pelos clientes (assíncrona)
+        // registra eventos (dos clientes)
         oneway void log(
             in Severidade severidade,
             in string endereco,
@@ -31,7 +30,7 @@ module T1Logger {
             in string msg
         );
 
-        // Consulta o endereço do último evento
+        // consulta endereço do último evento
         string locate(in Severidade severidade) raises (EventNotFound);
     };
 };
